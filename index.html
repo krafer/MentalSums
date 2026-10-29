@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#10101b" />
+    <meta
+      name="description"
+      content="Race the clock, sharpen your mental math, and beat your best score in Mental Math Rush."
+    />
+    <title>Mental Math Rush — Train your brain</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="brand" href="#" aria-label="Mental Math Rush home">
+          <span class="brand-mark" aria-hidden="true"><span>+</span></span>
+          <span class="brand-name">mental<span>rush</span></span>
+        </a>
+        <div class="header-note"><span class="live-dot"></span> YOUR DAILY BRAIN BOOST</div>
+      </header>
+
+      <main>
+        <section class="screen welcome-screen is-visible" id="welcome-screen" aria-labelledby="welcome-title">
+          <div class="intro">
+            <div class="eyebrow"><span class="eyebrow-line"></span> THINK FAST. ADD FASTER.</div>
+            <h1 id="welcome-title">Make every<br />second <span>count.</span></h1>
+            <p class="intro-copy">
+              A little pressure. A lot of progress. Build your mental math muscle one round at a time.
+            </p>
+            <div class="feature-row" aria-label="Game features">
+              <span><span class="feature-icon">↗</span> Quick rounds</span>
+              <span><span class="feature-icon">✳</span> Streak bonuses</span>
+              <span><span class="feature-icon">◎</span> No sign-up</span>
+            </div>
+          </div>
+
+          <div class="setup-card">
+            <div class="card-heading">
+              <div>
+                <p class="card-kicker">READY WHEN YOU ARE</p>
+                <h2>Set your challenge</h2>
+              </div>
+              <div class="spark-badge" aria-hidden="true">✦</div>
+            </div>
+
+            <fieldset class="choice-group">
+              <legend>Choose difficulty</legend>
+              <div class="difficulty-options">
+                <label class="choice-card selected">
+                  <input type="radio" name="difficulty" value="easy" checked />
+                  <span class="choice-title">Easy</span>
+                  <span class="choice-detail">Hundreds</span>
+                </label>
+                <label class="choice-card">
+                  <input type="radio" name="difficulty" value="medium" />
+                  <span class="choice-title">Medium</span>
+                  <span class="choice-detail">Thousands</span>
+                </label>
+                <label class="choice-card">
+                  <input type="radio" name="difficulty" value="hard" />
+                  <span class="choice-title">Hard</span>
+                  <span class="choice-detail">Big numbers</span>
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset class="choice-group time-group">
+              <legend>Pick your pace</legend>
+              <div class="time-options">
+                <label class="time-option">
+                  <input type="radio" name="duration" value="30" />
+                  <span>30 sec</span>
+                </label>
+                <label class="time-option selected">
+                  <input type="radio" name="duration" value="60" checked />
+                  <span>60 sec</span>
+                </label>
+                <label class="time-option">
+                  <input type="radio" name="duration" value="120" />
+                  <span>120 sec</span>
+                </label>
+              </div>
+            </fieldset>
+
+            <button class="button button-primary start-button" id="start-button" type="button">
+              Start a round <span aria-hidden="true">→</span>
+            </button>
+            <p class="setup-footnote"><span aria-hidden="true">⚡</span> Unlimited questions · 8–10 numbers each · 10 points per correct answer</p>
+          </div>
+        </section>
+
+        <section class="screen game-screen" id="game-screen" aria-labelledby="game-title" hidden>
+          <div class="game-topline">
+            <button class="text-button" id="quit-button" type="button"><span aria-hidden="true">←</span> Exit round</button>
+            <div class="round-label" id="round-label">EASY ROUND</div>
+            <div class="question-count" id="question-count">Question 1</div>
+          </div>
+
+          <div class="game-stats">
+            <div class="stat-card timer-card" id="timer-card">
+              <span class="stat-label"><span class="timer-icon" aria-hidden="true">◷</span> TIME LEFT</span>
+              <span class="stat-value timer-value" id="timer-value" role="timer" aria-live="off">60<span class="stat-unit">s</span></span>
+              <div class="timer-track" aria-hidden="true"><span id="timer-bar"></span></div>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">SCORE</span>
+              <span class="stat-value" id="score-value">0</span>
+            </div>
+            <div class="stat-card streak-card">
+              <span class="stat-label">CURRENT STREAK</span>
+              <span class="stat-value"><span id="streak-value">0</span><span class="streak-flame" aria-hidden="true">✦</span></span>
+            </div>
+          </div>
+
+          <div class="problem-card">
+            <div class="problem-topline">
+              <span class="problem-kicker" id="game-title">YOUR NEXT CHALLENGE</span>
+              <span class="difficulty-pill" id="difficulty-pill">EASY</span>
+            </div>
+            <div class="problem" aria-live="polite">
+              <div class="addends" id="addends"></div>
+              <div class="problem-rule" aria-hidden="true"></div>
+              <span class="answer-placeholder" aria-hidden="true">= ?</span>
+            </div>
+            <form id="answer-form" novalidate>
+              <label class="visually-hidden" for="answer-input">Your answer</label>
+              <input
+                id="answer-input"
+                name="answer"
+                type="text"
+                inputmode="numeric"
+                autocomplete="off"
+                maxlength="10"
+                placeholder="Type your answer"
+                aria-describedby="answer-help answer-feedback"
+                required
+              />
+              <button class="button button-submit" id="submit-button" type="submit">
+                Submit <span aria-hidden="true">↵</span>
+              </button>
+            </form>
+            <p class="answer-help" id="answer-help">Press <kbd>Enter ↵</kbd> to submit</p>
+            <p class="answer-feedback" id="answer-feedback" role="status" aria-live="polite"></p>
+          </div>
+
+          <div class="game-footer">
+            <div class="progress-label"><span id="progress-completed">0</span> answered <span class="progress-separator">·</span> keep your focus</div>
+          </div>
+        </section>
+
+        <section class="screen results-screen" id="results-screen" aria-labelledby="results-title" hidden>
+          <div class="results-heading">
+            <div class="result-icon" id="result-icon" aria-hidden="true">✦</div>
+            <p class="card-kicker" id="results-kicker">ROUND COMPLETE</p>
+            <h1 id="results-title">Nice work!</h1>
+            <p class="results-subtitle" id="results-subtitle">You showed up and put your brain to work.</p>
+          </div>
+          <div class="results-card">
+            <div class="final-score">
+              <span class="stat-label">FINAL SCORE</span>
+              <strong id="final-score">0</strong>
+              <span class="score-caption">points earned</span>
+            </div>
+            <div class="results-stats">
+              <div><span class="result-stat-value" id="result-correct">0</span><span class="result-stat-label">Correct</span></div>
+              <div><span class="result-stat-value" id="result-incorrect">0</span><span class="result-stat-label">Incorrect</span></div>
+              <div><span class="result-stat-value" id="result-accuracy">0%</span><span class="result-stat-label">Accuracy</span></div>
+              <div><span class="result-stat-value" id="result-streak">0</span><span class="result-stat-label">Best streak</span></div>
+            </div>
+            <div class="review-section">
+              <h2>Round recap <span id="review-count"></span></h2>
+              <div class="review-list" id="review-list"></div>
+            </div>
+            <div class="result-actions">
+              <button class="button button-primary" id="play-again-button" type="button">Play again <span aria-hidden="true">→</span></button>
+              <button class="button button-secondary" id="change-difficulty-button" type="button">Change challenge</button>
+            </div>
+          </div>
+          <p class="privacy-note"><span aria-hidden="true">◉</span> Your scores stay on this device only for this round.</p>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <span>MENTAL MATH RUSH</span>
+        <span>Small rounds. Big brain energy.</span>
+      </footer>
+    </div>
+  </body>
+</html>
